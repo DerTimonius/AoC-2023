@@ -18,15 +18,13 @@ fn main() {
 }
 
 fn sum_games(games: &str) -> usize {
-    let valid_nums = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
+    let max_cube_nums = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
     games
         .lines()
-        .filter_map(|game| validate_game(game, &valid_nums))
-        .collect::<Vec<usize>>()
-        .iter()
+        .filter_map(|game| validate_game(game, &max_cube_nums))
         .sum()
 }
-fn validate_game(game: &str, valid_nums: &HashMap<&str, usize>) -> Option<usize> {
+fn validate_game(game: &str, max_cube_nums: &HashMap<&str, usize>) -> Option<usize> {
     let game_info = game.split_vec(": ");
     let game_number: usize = game_info[0].split_vec(" ")[1]
         .parse::<usize>()
@@ -34,18 +32,18 @@ fn validate_game(game: &str, valid_nums: &HashMap<&str, usize>) -> Option<usize>
         .unwrap();
     let ind_games = game_info[1].split_vec("; ");
     for subset in ind_games {
-        if !validate_subset(subset, valid_nums) {
+        if !validate_subset(subset, max_cube_nums) {
             return None;
         }
     }
     Some(game_number)
 }
 
-fn validate_subset(subset: &str, valid_nums: &HashMap<&str, usize>) -> bool {
+fn validate_subset(subset: &str, max_cube_nums: &HashMap<&str, usize>) -> bool {
     let cubes = subset.split_vec(", ");
     for cube in cubes {
         let cube_info = cube.split_vec(" ");
-        if cube_info[0].parse::<usize>().unwrap() > *valid_nums.get(cube_info[1]).unwrap() {
+        if cube_info[0].parse::<usize>().unwrap() > *max_cube_nums.get(cube_info[1]).unwrap() {
             return false;
         }
     }
