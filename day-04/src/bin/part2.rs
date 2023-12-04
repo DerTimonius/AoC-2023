@@ -1,25 +1,24 @@
-use std::collections::HashMap;
-
 use nom::{IResult, multi::separated_list1, character::complete::{line_ending, digit1, multispace0, multispace1}, sequence::{preceded, separated_pair, pair}, bytes::complete::tag, combinator::map_res};
 
 
 #[derive(Debug)]
 struct Card {
-  // not needed in this puzzle, still nice to have
   id: usize,
   winning_numbers: Vec<u32>,
   betting_numbers: Vec<u32>,
+  amount: usize,
 }
 
 impl Card {
-  fn get_points(&self) -> Option<u32> {
-    let points: HashMap<usize, u32> = HashMap::from([(1, 1), (2, 2), (3, 4), (4, 8), (5, 16), (6, 32), (7, 64), (8, 128), (9, 256), (10, 512)]);
+  fn get_points(&self) -> usize {
     let in_both = self.betting_numbers.iter().filter(|&x| self.winning_numbers.contains(x)).count();
-    points.get(&in_both).cloned()
+    in_both
   }
+
 }
 
 fn main() {
+  // let input = include_str!("./test.txt");
   let input = include_str!("./input.txt");
   let result = do_magic(input);
   println!("result: {}", result);
@@ -42,7 +41,7 @@ fn card(input: &str) -> IResult<&str, Card> {
   let (input, (winning_numbers, betting_numbers)) = preceded(pair(tag(":"), multispace1),separated_pair(parse_numbers, pair(tag(" | "), multispace0), parse_numbers))(input)?;
 
   let id = id.parse::<usize>().expect("should be a number");
-  Ok((input, Card {id, winning_numbers, betting_numbers}))
+  Ok((input, Card {id, winning_numbers, betting_numbers, amount: 1}))
 }
 
 fn parse_game(input: &str) -> IResult<&str, Vec<Card>>  {
@@ -51,10 +50,28 @@ fn parse_game(input: &str) -> IResult<&str, Vec<Card>>  {
   Ok((input, cards))
 }
 
-fn do_magic(input: &str) -> u32 {
-  let cards = parse_game(input).expect("should work");
+fn do_magic(input: &str) -> usize {
+  let parsed = parse_game(input).expect("should work");
+  let mut cards = parsed.1;
 
-  cards.1.iter().filter_map(|card| card.get_points()).sum()
+  for i in 0..cards.len() {
+    let (current_cards, future_cards) = cards.split_at_mut(i + 1);
+
+    let current_card = &current_cards[i];
+    let points = current_card.get_points();
+    let mut copies = current_card.amount;
+
+    while copies > 0 {
+      for j in 1..=points {
+        if let Some(next_card) = future_cards.iter_mut().find(|c| c.id == (current_card.id + j)) {
+          next_card.amount += 1;
+        }
+      }
+      copies -= 1
+    }
+  }
+
+  cards.iter().map(|card| card.amount).sum()
 }
 
 #[cfg(test)]
@@ -65,6 +82,6 @@ mod tests {
   fn it_works() {
       let input = include_str!("./test.txt");
       let result = do_magic(input);
-      assert_eq!(result, 13);
+      assert_eq!(result, 30);
   }
 }
