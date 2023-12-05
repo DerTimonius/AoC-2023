@@ -5,7 +5,9 @@ fn main() {
     println!("{}", result);
 }
 
-fn do_magic(input: &str) {}
+fn do_magic(input: &str) -> u32 {
+    0
+}
 
 #[cfg(test)]
 mod tests {
