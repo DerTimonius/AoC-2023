@@ -20,8 +20,8 @@ impl Race {
 }
 
 fn main() {
-  let input = include_str!("./input.txt");
-  // let input = include_str!("./test.txt");
+  // let input = include_str!("./input.txt");
+  let input = include_str!("./test.txt");
   let result = do_magic(input);
   println!("{}", result);
 }
@@ -48,7 +48,7 @@ mod tests {
   use super::*;
 
   #[test]
-  fn it_works() {
+  fn part1_works() {
       let input = include_str!("./test.txt");
       let result = do_magic(input);
       assert_eq!(result, 288);
