@@ -2,7 +2,7 @@ use nom::{
     bytes::complete::tag,
     character::complete::{alpha1, line_ending, multispace1},
     multi::separated_list1,
-    sequence::{preceded, separated_pair, pair},
+    sequence::{pair, preceded, separated_pair},
     IResult,
 };
 
@@ -26,8 +26,13 @@ fn main() {
 
 fn do_magic(input: &str) -> u32 {
     let (_, (directions, nodes)) = parse_plan(input).expect("should parse without errors");
-    let mut current_node = nodes.iter().find(|node| node.name == "AAA").unwrap().clone();
+    let mut current_node = nodes
+        .iter()
+        .find(|node| node.name == "AAA")
+        .unwrap()
+        .clone();
     let mut steps = 0;
+    println!("nodes: {:?}", nodes);
 
     let binding = directions.repeat(100);
     let mut directions = binding.as_str();
@@ -36,13 +41,21 @@ fn do_magic(input: &str) -> u32 {
         let step = directions.chars().nth(0).unwrap();
         steps += 1;
         if step == 'R' {
-            current_node = nodes.iter().find(|node| node.name == current_node.direction.right).unwrap().clone()
+            current_node = nodes
+                .iter()
+                .find(|node| node.name == current_node.direction.right)
+                .unwrap()
+                .clone()
         } else {
-            current_node = nodes.iter().find(|node| node.name == current_node.direction.left).unwrap().clone()
+            current_node = nodes
+                .iter()
+                .find(|node| node.name == current_node.direction.left)
+                .unwrap()
+                .clone()
         }
 
         if current_node.name == "ZZZ" {
-            break
+            break;
         }
         directions = &directions[1..];
     }
