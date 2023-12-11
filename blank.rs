@@ -2,7 +2,7 @@ fn main() {
     // let input = include_str!("./input.txt");
     let input = include_str!("./test.txt");
     let result = do_magic(input);
-    println!("{}", result);
+    println!("result: {}", result);
 }
 
 fn do_magic(input: &str) -> u32 {
