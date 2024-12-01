@@ -1,11 +1,17 @@
 {
-  "name": "2024",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+	"name": "2024",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"format": "bunx biome format --write .",
+		"lint": "bunx biome lint --write .",
+		"check": "bunx biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
 }
