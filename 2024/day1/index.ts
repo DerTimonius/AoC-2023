@@ -1,16 +1,15 @@
 export async function solveDay1(
-	basePath: string,
-	type: "actual" | "basic",
+	type: 'actual' | 'basic',
 	part: 1 | 2,
 ): Promise<number> {
-	const file = Bun.file(`${basePath}/${type}.txt`);
+	const file = Bun.file(`${import.meta.dir}/${type}.txt`);
 	const text = await file.text();
 
-	const lines = text.split("\n");
+	const lines = text.split('\n');
 	const left = [] as number[];
 	const right = [] as number[];
 	for (const line of lines) {
-		const nums = line.match(/\d+/g);
+		const nums = parseLine(line);
 
 		if (nums) {
 			left.push(Number(nums[0]));
@@ -26,7 +25,7 @@ function solvePart1(nums1: number[], nums2: number[]): number {
 	const right = nums2.toSorted((a, b) => a - b);
 
 	if (left.length !== right.length) {
-		throw new Error("Arrays are of different length");
+		throw new Error('Arrays are of different length');
 	}
 
 	let distance = 0;
@@ -53,4 +52,8 @@ function solvePart2(left: number[], right: number[]): number {
 		similarity += num * times;
 	}
 	return similarity;
+}
+
+export function parseLine(line: string) {
+	return line.match(/\d+/g);
 }
