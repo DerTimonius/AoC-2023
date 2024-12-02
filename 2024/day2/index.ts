@@ -38,22 +38,9 @@ export function parseLine(line: string) {
 }
 
 export function checkSafety(nums: number[]): boolean {
-	let direction: Direction | undefined;
-	for (let i = 0; i < nums.length - 1; i++) {
-		const diff = nums[i] - nums[i + 1];
-		const newDir: Direction = diff > 0 ? 'asc' : 'desc';
-		if (
-			(direction && newDir !== direction) ||
-			Math.abs(diff) > 3 ||
-			diff === 0
-		) {
-			return false;
-		}
-
-		direction = newDir;
-	}
-
-	return true;
+	const diffs = nums.map((num, i) => num - nums[i - 1]).slice(1);
+	return (
+		diffs.every((diff) => diff < 0 && diff >= -3) ||
+		diffs.every((diff) => diff > 0 && diff <= 3)
+	);
 }
-
-type Direction = 'asc' | 'desc';
