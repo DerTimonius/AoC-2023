@@ -13,5 +13,8 @@
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"@total-typescript/ts-reset": "^0.6.1"
 	}
 }
