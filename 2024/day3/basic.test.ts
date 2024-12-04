@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import { checkSafety, parseLine, parseMult, solveDay3 } from '.';
+import { parseLine, parseMult, solveDay3 } from '.';
 
 test('correctly parse line', () => {
 	expect(

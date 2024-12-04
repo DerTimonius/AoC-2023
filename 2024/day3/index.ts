@@ -23,18 +23,10 @@ function solve(lines: number[][]): number {
 }
 
 export function parseLine(line: string) {
-	const newLine = line.replaceAll(/don't\(\).+?do\(\)/g, '');
+	const newLine = line.replaceAll(/don't\(\).+?(do\(\)|\n)/g, '');
 	return newLine.match(/mul\(\d+,\d+\)/g);
 }
 
 export function parseMult(str: string) {
 	return str.match(/\d+/g);
-}
-
-export function checkSafety(nums: number[]): boolean {
-	const diffs = nums.map((num, i) => num - nums[i - 1]).slice(1);
-	return (
-		diffs.every((diff) => diff < 0 && diff >= -3) ||
-		diffs.every((diff) => diff > 0 && diff <= 3)
-	);
 }
