@@ -46,8 +46,8 @@ function solvePart2(ruleMap: RuleMap, sequences: number[][]): number {
 
 function checkSequence(sequence: number[], ruleMap: RuleMap): boolean {
 	for (let i = 0; i < sequence.length; i++) {
+		const firstRule = ruleMap.get(sequence[i]);
 		for (let j = i + 1; j < sequence.length; j++) {
-			const firstRule = ruleMap.get(sequence[i]);
 			const secondRule = ruleMap.get(sequence[j]);
 			if (!firstRule || !secondRule) {
 				continue;
