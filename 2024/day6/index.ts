@@ -33,7 +33,7 @@ function solvePart1(grid: Grid, start: number[]): number {
 		[0, -1],
 	];
 
-	console.table(grid.map((r) => r.map((x) => x.char)));
+	// console.table(grid.map((r) => r.map((x) => x.char)));
 	while (isInGrid(grid, row, col)) {
 		const [rowDir, colDir] = dirs[currIdx];
 		const newRow = row + rowDir;
@@ -69,7 +69,6 @@ function solvePart2(grid: Grid, start: number[]): number {
 				continue;
 			}
 
-			console.log(`checking at ${row} and ${col}`);
 			grid[row][col].char = 'O';
 			sum += Number(isInfiniteLoop(grid, start));
 			grid[row][col].char = '.';
