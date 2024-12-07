@@ -2,7 +2,6 @@ type Calibration = {
 	result: number;
 	nums: number[];
 };
-const operators = ['+', '*'];
 
 export async function solveDay7(
 	type: 'actual' | 'basic' | 'basic_new',
@@ -30,6 +29,7 @@ export function testCalibration(
 ): boolean {
 	function backtrack(currIdx: number, currResult: number): boolean {
 		if (currIdx === nums.length) return currResult === result;
+		if (currResult > result) return false;
 
 		for (const op of operations) {
 			const nextResult =
