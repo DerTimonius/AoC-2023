@@ -112,14 +112,11 @@ export function moveRobot(
 function placeRobot(
 	grid: (string | number)[][],
 	{ position: { row, col } }: Robot,
-	char?: string,
 ) {
 	if (!isInGrid(grid, row, col)) {
 		throw new Error('found an invalid robot position');
 	}
-	if (char) {
-		grid[row][col] = char;
-	} else if (typeof grid[row][col] === 'number') {
+	if (typeof grid[row][col] === 'number') {
 		grid[row][col]++;
 	} else {
 		grid[row][col] = 1;
@@ -170,7 +167,7 @@ function solvePart2(grid: (string | number)[][], robots: Robot[]): number {
 	while (true) {
 		for (const robot of robots) {
 			moveRobot(robot, 1, grid);
-			placeRobot(grid, robot, 'X');
+			placeRobot(grid, robot);
 		}
 		if (checkGrid(grid)) {
 			console.table(grid);
@@ -182,8 +179,7 @@ function solvePart2(grid: (string | number)[][], robots: Robot[]): number {
 }
 
 function checkGrid(grid: (string | number)[][]) {
-	const str = grid.map((row) => row.join('')).join('');
-	return str.includes('XXXXXXXXXXXXXX');
+	return grid.every((row) => row.every((cell) => cell === '.' || cell === 1));
 }
 
 function resetGrid(grid: (string | number)[][]) {
