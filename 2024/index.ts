@@ -1,5 +1,5 @@
 import '@total-typescript/ts-reset';
-import { solveDay14 } from './day14';
+import { solveDay15 } from './day15';
 
 async function solve(
 	cb: (type: 'basic' | 'actual', part: 1 | 2) => Promise<number>,
@@ -8,4 +8,4 @@ async function solve(
 	console.log('The result is: ', result);
 }
 
-solve(solveDay14);
+solve(solveDay15);
