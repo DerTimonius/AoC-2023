@@ -108,9 +108,10 @@ function solvePart1(grid: string[][], bytes: Byte[], cutoff: number): number {
 	for (const { x, y } of bytes.slice(0, cutoff)) {
 		grid[y][x] = '#';
 	}
+	console.table(grid);
 	const { steps, path } = findShortestPath(grid);
 	paintPath(grid, path);
-	// console.table(grid);
+	console.table(grid);
 	return steps;
 }
 
